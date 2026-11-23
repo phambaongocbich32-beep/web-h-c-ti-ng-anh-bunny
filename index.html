@@ -160,6 +160,10 @@ select{font:inherit;padding:6px;border-radius:12px;border:3px solid var(--lilac2
 .vxlist{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.grid.tiles.small .tile{min-height:90px}
 .hero-text .tag{display:block}.hero-text .tag.small{margin-top:2px}
 
+.shower{position:fixed;bottom:-40px;z-index:90;pointer-events:none;animation:rise 2.2s ease-out forwards}@keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:.1}}
+.cd{height:10px;border-radius:9px;background:#e4dcff;overflow:hidden;margin:8px 0}.cd>div{height:100%;background:#7bd88f;width:0}
+@media (prefers-reduced-motion:reduce){.shower{animation-duration:.01s}}
+
 </style>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%B0%3C/text%3E%3C/svg%3E">
@@ -995,6 +999,15 @@ B.modal=function(content,buttons){
 };
 B.updateTop=function(){const s=B.$("#stars"),k=B.$("#streak");if(s)s.textContent="⭐ "+B.S.stars;if(k)k.textContent="🔥 "+(B.S.streak.last===B.dayKey()||B.S.streak.last===B.addDays(B.dayKey(),-1)?B.S.streak.count:0);};
 B.burst=function(el){const r=el.getBoundingClientRect();for(let i=0;i<8;i++){const s=h("span",{class:"spark"},B.pick(["⭐","✨","🌟"]));s.style.left=(r.left+r.width/2)+"px";s.style.top=(r.top+r.height/2+scrollY)+"px";s.style.setProperty("--dx",(Math.random()*160-80)+"px");s.style.setProperty("--dy",(-40-Math.random()*100)+"px");doc.body.appendChild(s);setTimeout(()=>s.remove(),900);}};
+/* voice-first feedback for a child who cannot read yet */
+const PRAISE=["Great job!","Wonderful! You said it so well!","Excellent speaking!","Perfect! Good for you!","Amazing! I love how you said that!","Super! You are a star!"];
+B.shower=function(){for(let i=0;i<18;i++){const s=h("span",{class:"shower","aria-hidden":"true"},B.pick(["⭐","🌟","✨","⭐"]));s.style.left=(4+Math.random()*92)+"vw";s.style.animationDelay=(Math.random()*0.5)+"s";s.style.fontSize=(1.4+Math.random()*1.6)+"rem";doc.body.appendChild(s);setTimeout(()=>s.remove(),2600);}};
+B.praise=function(ok,model){
+  if(ok){B.cheer();B.shower();B.setBubble("Great job!");return A.speak(B.pick(PRAISE));}
+  B.oops();B.setBubble(model||"Try again!");
+  return A.speak("Good try!").then(()=>model?A.speak("Listen. "+model,{slow:true}):0).then(()=>A.speak("Now you say it!"));
+};
+B.hearAgain=function(){B.oops();return A.speak("I could not hear you. Try again, nice and loud!");};
 /* standard speaker button */
 B.spk=function(text,label,cls,o){return h("button",{class:cls||"btn spk","aria-label":label||"Listen",onclick:()=>A.speak(text,o)},label||"🔊");};
 B.back=function(to,label){return h("button",{class:"btn small back",onclick:()=>B.go(to||"home")},"⬅ "+(label||"Back"));};
@@ -1337,7 +1350,7 @@ S.run=function(root,def,opts){
     async function correct(src,said){
       if(busy&&src==="mic"){}
       busy=true;const first=tries===0&&!helped;if(first)okFirst++;results.push(first);
-      B.ding();B.burst(mic);B.touchDay();
+      B.ding();B.burst(mic);B.shower();B.touchDay();
       const m=modelText();
       let reply;
       if(swap){reply=B.pick(["Great question!","Perfect!","Well done!"])+" "+B.fill(B.pick([t.m].concat(t.alt)));}
@@ -1906,6 +1919,7 @@ B.views.talk=function(root,p){
       card("🤖","AI Foreign Friends","Bạn AI nước ngoài","Chat with 6 AI characters",aiReady()?"Ready":"Needs setup",()=>B.go("talk",{tab:"ai"}),"c2"),
       card("🗺️","30 Real-life Topics","30 chủ đề giao tiếp","Words, phrases, dialogs, practice","Ready",()=>B.go("talk",{tab:"topics"}),"c3"),
       card("🎙️","Speak – Check – Improve","Luyện phát âm","Listen, repeat, see what was heard","Ready",()=>B.go("pron"),"c5"),
+      card("👥","Shadowing","Nói theo như tiếng vang","Repeat right after Emma","Ready",()=>B.go("shadow"),"c4"),
       card("🧠","Listen – Think – Speak","Nghe – Nghĩ – Nói","Questions with no text on screen","Ready",()=>B.go("lts"),"c6")));
     root.appendChild(h("p",{class:"hint"},"“Ready” works in the browser now. “Needs setup” and “Coming soon” need outside services; the app shows exactly what is missing and never fakes them."));
     B.setBubble("Who do you want to talk to today?");return;}
@@ -1996,7 +2010,7 @@ function topics(root,p){
   if(sec==="listen")listenQuiz(box,t);
   if(sec==="speak")rolePlay(box,t);
   if(sec==="rand")randomQ(box,t);
-  if(sec==="vid"){box.appendChild(h("p",null,"Videos are for grown-ups to choose with the child. The next button asks a parent first and opens YouTube search results."));box.appendChild(h("button",{class:"btn",onclick:()=>B.go("parent",{tab:"videos"})},"👪 Open video list (parents)"));}
+  if(sec==="vid"){box.appendChild(h("p",null,"A grown-up can watch with you. These open YouTube search results in a new tab."));box.appendChild(h("div",{class:"row wrap"},[t.t+" English for kids","English conversation for kids "+t.t,t.words.slice(0,3).map(w=>w.w).join(" ")+" vocabulary for kids"].map(q=>h("a",{class:"btn",href:"https://www.youtube.com/results?search_query="+encodeURIComponent(q),target:"_blank",rel:"noopener noreferrer"},"📺 "+q))));}
   if(sec==="ai"){box.appendChild(h("p",null,"Open a free conversation about “"+t.t+"” with an AI friend."));box.appendChild(h("div",{class:"row wrap"},B.PERSONAS.map(x=>h("button",{class:"btn",onclick:()=>B.go("talk",{tab:"ai",persona:x.id,topic:t.id})},x.e+" "+x.n))));if(!aiReady())box.appendChild(setupCard());}
   B.setBubble("Let's talk about "+t.t+"!");
 }
@@ -2021,9 +2035,9 @@ function rolePlay(box,t){
     const micb=h("button",{class:"btn big mic",onclick:async()=>{
       if(!M.usable()){out.textContent="Microphone is off. Tap “I said it” after you say the answer aloud.";return;}
       micb.disabled=true;out.textContent="🎧 Listening…";const r=await M.listen();micb.disabled=false;
-      if(r.status!=="heard"){out.textContent="I did not hear you. Try again, or tap “I said it”.";return;}
+      if(r.status!=="heard"){out.textContent="I did not hear you. Try again, or tap “I said it”.";if(r.status==="none")B.hearAgain();return;}
       mic++;const m=B.match(r.alts,[],[a]);if(m.ok)ok++;
-      out.textContent="I heard: “"+r.text+"”. "+(m.ok?"That matches the idea. Good job!":"Not the same words as the example, but you can say it like this: "+a);m.ok?B.ding():B.oops();say(a);setTimeout(reveal,2200);}},"🎤");
+      out.textContent="I heard: “"+r.text+"”. "+(m.ok?"That matches the idea. Good job!":"Not the same words as the example, but you can say it like this: "+a);B.praise(m.ok,a).then(()=>setTimeout(reveal,500));}},"🎤");
     box.appendChild(h("div",{class:"row wrap"},micb,h("button",{class:"btn",onclick:()=>{say(a);reveal();}},"✅ I said it"),h("button",{class:"btn",onclick:()=>say(a,{slow:true})},"🐢 Hear example")));
     box.appendChild(out);say(q);};
   if(!turns.length){box.appendChild(h("p",null,"No role-play in this topic."));return;}
@@ -2035,7 +2049,7 @@ function randomQ(box,t){
     const micb=h("button",{class:"btn big mic",onclick:async()=>{if(!M.usable()){out.textContent="Microphone is off. Say it aloud, then tap “Show example”.";return;}
       micb.disabled=true;out.textContent="🎧 Listening…";const r=await M.listen();micb.disabled=false;
       if(r.status!=="heard"){out.textContent="I did not hear you. Try again.";return;}
-      track(t.id);const n=r.text.split(/\s+/).length;out.textContent="I heard: “"+r.text+"”. "+(n>=4?"Nice, a long answer!":"Good! Can you say more? Example: "+x.a);}},"🎤");
+      track(t.id);const n=r.text.split(/\s+/).length;out.textContent="I heard: “"+r.text+"”. "+(n>=4?"Nice, a long answer!":"Good! Can you say more? Example: "+x.a);if(n>=3)B.praise(true);else{B.oops();A.speak("Good try! Can you say more? For example: "+x.a);}}},"🎤");
     box.appendChild(h("div",{class:"row wrap"},h("button",{class:"btn spk",onclick:()=>say(x.q)},"🔊 Hear"),micb,h("button",{class:"btn",onclick:()=>{out.textContent="Example: "+x.a;say(x.a);}},"💡 Show example"),h("button",{class:"btn good",onclick:draw},"Next ➡")));
     box.appendChild(out);say(x.q);};
   draw();
@@ -2112,7 +2126,7 @@ function practice(box,target,nextFn){
   const micb=h("button",{class:"btn big mic",onclick:async()=>{
     if(!M.usable()){st.textContent="Microphone is off or not supported. You can type what you said below.";return;}
     micb.disabled=true;const r=await M.listen(s=>{st.textContent={listening:"🎧 Listening…",speech:"🎧 …",processing:"⏳ Checking…",heard:"",none:"I did not hear anything. Try again.",denied:"Microphone is blocked in the browser.",error:"Network problem with the microphone.",unsupported:"Not supported on this browser.",off:"Microphone is off."}[s]||"";});
-    micb.disabled=false;if(r.status==="heard")analyze(r.text);}},"🎤 Repeat");
+    micb.disabled=false;if(r.status==="heard")analyze(r.text);else if(r.status==="none")B.hearAgain();}},"🎤 Repeat");
   const typedSaid=h("input",{type:"text",class:"bigtext sm",placeholder:"Or type what you said","aria-label":"What you said",maxlength:"150"});
   box.appendChild(h("div",{class:"row wrap"},micb,typedSaid,h("button",{class:"btn small",onclick:()=>{if(typedSaid.value.trim())analyze(typedSaid.value.trim());}},"Check")));
   box.appendChild(st);box.appendChild(res);box.appendChild(cmp);
@@ -2131,8 +2145,8 @@ function practice(box,target,nextFn){
     if(prev)cmp.textContent="Compare: last try "+prev.ok+"/"+prev.total+" words heard → this try "+c.ok+"/"+c.total+".";
     prev=c;
     const good=c.ok===c.total&&!c.extra.length;
-    if(good){B.cheer();res.appendChild(h("div",{class:"ok-msg"},"🎉 I heard every word! (This does not mean the sounds were perfect.)"));B.reward("pron:"+B.norm(target).slice(0,30),1,1,"speaking");}
-    else{B.oops();res.appendChild(h("div",{class:"hint"},"Listen again and try once more. Slow is fine!"));}
+    if(good){res.appendChild(h("div",{class:"ok-msg"},"🎉 I heard every word! (This does not mean the sounds were perfect.)"));B.reward("pron:"+B.norm(target).slice(0,30),1,1,"speaking");B.praise(true);}
+    else{res.appendChild(h("div",{class:"hint"},"Listen again and try once more. Slow is fine!"));B.praise(false,target);}
     B.save();
   }
 }
@@ -2148,6 +2162,42 @@ function report(root){
     endS.length?h("p",null,"Possible pattern: words ending in -s, -d, -t or -ed are often missed ("+endS.slice(0,5).join(", ")+"). This is a guess from text only, so please listen to your child to be sure."):null,
     h("p",{class:"hint"},HONEST)));
 }
+/* ---- Shadowing: Emma says a short chunk, the child repeats it straight away ---- */
+function chunks(s){const w=s.replace(/\s+/g," ").trim().split(" ");const out=[];let i=0;while(i<w.length){const n=(w.length-i)===4?2:Math.min(3,w.length-i);out.push(w.slice(i,i+n).join(" "));i+=n;}return out;}
+B.views.shadow=function(root,p){
+  p=p||{};root.appendChild(h("div",{class:"row between"},B.back("talk"),h("h1",null,"👥 Shadowing")));
+  const src=sources();const gi=+(p.g||0);
+  if(p.go===undefined){
+    root.appendChild(h("p",null,"Emma says a few words. You say them right away, like an echo! Then you say the whole sentence."));
+    root.appendChild(h("p",{class:"vi"},"Cô Emma nói vài từ, bé nói lại ngay như tiếng vang. Sau đó bé nói cả câu."));
+    root.appendChild(h("div",{class:"grid tiles small"},src.map((s,i)=>h("button",{class:"tile c"+(i%6+1),onclick:()=>B.go("shadow",{g:i,go:1})},h("div",{class:"tn"},s.n)))));
+    B.setBubble("Let's echo together!");return;}
+  const list=B.shuffle(src[gi].list).slice(0,4);let si=0,heardOk=0,total=0;const box=h("div",{class:"card"});root.appendChild(box);
+  const useMic=()=>M.usable();
+  const turn=async(text,label)=>{ /* returns true if the child's try matched */
+    const ch=h("div",{class:"big target"},text),st=h("div",{class:"hint"},label);const bar=h("div",{class:"cd"},h("div"));
+    B.clear(box);box.appendChild(h("div",{class:"prompt"},"👂 Listen…"));box.appendChild(ch);box.appendChild(bar);box.appendChild(st);
+    await A.speak(text,{slow:true});
+    box.firstChild.textContent="🎤 Now you!";
+    if(useMic()){
+      const r=await M.listen(s=>{st.textContent={listening:"🎧 Listening…",speech:"🎧 …",processing:"⏳…"}[s]||"";});
+      if(r.status==="heard"){total++;const m=B.match(r.alts,[],[text]);const c=B.compare(text,r.text);const ok=m.ok&&c.ok>=Math.ceil(c.total*0.6);st.textContent="I heard: “"+r.text+"”";if(ok)heardOk++;await B.praise(ok,text);return ok;}
+      if(r.status==="none"){await B.hearAgain();return false;}
+      st.textContent="Microphone problem. Say it aloud anyway.";
+    }
+    /* no microphone: leave time to repeat, no star for this */
+    await new Promise(res=>{const d=Math.max(2500,text.length*130);const f=bar.firstChild;f.style.transition="width "+d+"ms linear";requestAnimationFrame(()=>f.style.width="100%");setTimeout(res,d);});
+    return null;};
+  const run=async()=>{
+    while(si<list.length){const s=list[si];
+      for(const c of chunks(s)){let tries=0,ok=false;while(tries<2&&!ok){ok=await turn(c,"");tries++;if(ok===null)break;}}
+      await turn(s,"Now the whole sentence!");si++;}
+    B.clear(box);const n=total?B.reward("shadow:"+gi,heardOk,total,"speaking"):0;
+    box.appendChild(h("div",{class:"done"},h("div",{class:"big-emoji"},"🏆"),h("h2",null,"Shadowing finished!"),h("p",null,total?"I understood "+heardOk+" of "+total+" tries."+(n?" +"+n+" ⭐":""):"You practiced "+list.length+" sentences."),h("button",{class:"btn good",onclick:()=>B.go("shadow")},"Play again")));
+    B.shower();A.speak("Well done! You are a great echo!");};
+  box.appendChild(h("button",{class:"btn big good",onclick:run},"▶ Start"));
+  B.setBubble("Ready? Say it right after me!");
+};
 /* ---- Listen - Think - Speak ---- */
 const LV=[["slow","🐢 Slow English",0.7],["clear","🔊 Clear English",0.9],["natural","🗣️ Natural English",1.05],["daily","🏙️ Everyday Conversation",1.15]];
 B.views.lts=function(root,p){
@@ -2173,9 +2223,9 @@ B.views.lts=function(root,p){
     const micb=h("button",{class:"btn big mic",onclick:async()=>{
       if(!M.usable()){out.textContent="Microphone is off. Say your answer aloud, then tap “Show answer”.";return;}
       micb.disabled=true;out.textContent="🎧 Listening…";const r=await M.listen();micb.disabled=false;
-      if(r.status!=="heard"){out.textContent="I did not hear you. Listen again and try!";return;}
+      if(r.status!=="heard"){out.textContent="I did not hear you. Listen again and try!";if(r.status==="none")B.hearAgain();return;}
       answered++;const w=r.text.split(/\s+/).length;if(w>=2)heardN++;B.skill("speaking",w>=2);B.S.talk.turns++;
-      out.textContent="I heard: “"+r.text+"”. "+(w>=4?"Great, a long answer!":"Good! Try a longer answer next time.")+(x.a?" Example: "+x.a:"");B.ding();setTimeout(fin,2600);}},"🎤 Answer");
+      out.textContent="I heard: “"+r.text+"”. "+(w>=4?"Great, a long answer!":"Good! Try a longer answer next time.")+(x.a?" Example: "+x.a:"");if(w>=2)B.praise(true).then(()=>setTimeout(fin,600));else{B.oops();A.speak("Good try! Can you say more?"+(x.a?" For example: "+x.a:"")).then(()=>setTimeout(fin,600));}}},"🎤 Answer");
     box.appendChild(h("div",{class:"row wrap"},h("button",{class:"btn spk",onclick:()=>sp(x.q)},"🔊 Hear again"),micb,
       h("button",{class:"btn",onclick:()=>{shown.textContent=x.q;if(x.a)out.textContent="Example answer: "+x.a;}},"👀 Show question"),h("button",{class:"btn",onclick:fin},"Skip ➡")));
     box.appendChild(out);sp(x.q);};
@@ -2304,7 +2354,7 @@ B.views.home=function(root){
   root.appendChild(h("div",{class:"grid tiles home-tiles"},T.map(t=>h("button",{class:"tile "+t[4],onclick:()=>B.go(t[0],t[5])},h("div",{class:"te"},t[1]),h("div",{class:"tn"},t[2]),B.S.settings.vi?h("div",{class:"vi"},t[3]):null))));
   {const ns=B.nextSteps();root.appendChild(h("div",{class:"card"},h("h3",null,"🧭 Suggested next steps"),h("div",{class:"row wrap"},ns.map(x=>h("button",{class:"btn",title:x.why,onclick:()=>B.go(x.go[0],x.go[1])},x.t))),h("div",{class:"hint"},"Chosen by simple rules from your results (not AI).")));}
   root.appendChild(h("h3",{class:"center"},"More to explore"));
-  root.appendChild(h("div",{class:"row wrap center"},[["🧠","Listen – Think – Speak","lts"],["🌍","Real Life English","reallife"],["🗣️","Speaking World","speaking"],["✏️","Writing Corner","writing"],["🎵","Songs","songs"],["📚","Word Topics","vocab"],["🗺️","30 Topics","talk",{tab:"topics"}]].map(x=>h("button",{class:"btn",onclick:()=>B.go(x[2],x[3])},x[0]+" "+x[1]))));
+  root.appendChild(h("div",{class:"row wrap center"},[["📺","Videos","videos"],["👥","Shadowing","shadow"],["🧠","Listen – Think – Speak","lts"],["🌍","Real Life English","reallife"],["🗣️","Speaking World","speaking"],["✏️","Writing Corner","writing"],["🎵","Songs","songs"],["📚","Word Topics","vocab"],["🗺️","30 Topics","talk",{tab:"topics"}]].map(x=>h("button",{class:"btn",onclick:()=>B.go(x[2],x[3])},x[0]+" "+x[1]))));
   if(A.voices.length&&!A.natural){root.appendChild(h("div",{class:"card note"},h("b",null,"🔊 Voice tip: "),"This device's voice sounds robotic. For a natural American voice open this page in Microsoft Edge, or ask a parent to open Parent Corner → Settings to pick a better voice.",h("button",{class:"btn small",onclick:()=>B.go("parent",{tab:"settings"})},"Choose voice")));}
   B.setBubble(greet+", "+B.name()+"! Tap Continue Learning to start.");
 };
@@ -2345,7 +2395,7 @@ B.views.lesson=function(root,p){
     return h("button",{class:"part"+(done?" done":pt[0]===nx?" next":""),onclick:()=>B.go("lesson",{week:n,part:pt[0]})},h("span",{class:"pn"},done?"✅":pt[4]),h("span",{class:"pt"},pt[1]+". "+pt[2]),B.S.settings.vi?h("span",{class:"vi"},pt[3]):null);})));
   root.appendChild(h("div",{class:"card"},h("h3",null,"Words this week"),h("div",{class:"row wrap"},w.words.map(x=>h("button",{class:"wchip",onclick:()=>A.speak(x.w+". "+x.s)},x.e+" "+x.w))),
     h("h3",null,"Sentences"),h("ul",{class:"sentlist"},w.sent.map(s=>h("li",null,h("button",{class:"linkbtn",onclick:()=>A.speak(s)},"🔊 "+B.fill(s)))))));
-  root.appendChild(h("div",{class:"row wrap"},h("button",{class:"btn",onclick:()=>B.go("reallife",{id:w.sc})},"🌍 Role-play: "+B.scen(w.sc).t),h("button",{class:"btn",onclick:()=>B.go("reading",{story:B.storyForWeek(n).id})},"📖 Story: "+B.storyForWeek(n).t)));
+  root.appendChild(h("div",{class:"row wrap"},B.ytBtn("English for kids "+w.t+" vocabulary","📺 Videos: "+w.t),B.ytBtn("phonics song for kids American English","📺 Phonics videos"),h("button",{class:"btn",onclick:()=>B.go("reallife",{id:w.sc})},"🌍 Role-play: "+B.scen(w.sc).t),h("button",{class:"btn",onclick:()=>B.go("reading",{story:B.storyForWeek(n).id})},"📖 Story: "+B.storyForWeek(n).t)));
   B.setBubble(nx?"Let's start with "+PARTS.find(x=>x[0]===nx)[2]+"!":"Week "+n+" is done! You can practice again.");
 };
 /* ---------- progress ---------- */
@@ -2434,6 +2484,8 @@ function videos(c){
     h("div",{class:"hint"},"Parents: these open YouTube search results in a new tab. Please preview videos and use YouTube Kids or Restricted Mode.")));
   G.forEach(g=>c.appendChild(h("div",{class:"card"},h("h3",null,g[0]),h("div",{class:"row wrap"},g[1].map(q=>h("a",{class:"btn small",href:yt(q),target:"_blank",rel:"noopener noreferrer"},"▶ "+q))))));
 }
+B.ytBtn=function(q,label){return h("a",{class:"btn",href:yt(q),target:"_blank",rel:"noopener noreferrer"},label||"📺 Watch videos");};
+B.views.videos=function(root){root.appendChild(h("div",{class:"row between"},B.back("home"),h("h1",null,"📺 Videos")));videos(root);B.setBubble("Ask a grown-up to watch with you!");};
 function settings(c){
   const S=B.S.settings;
   const name=h("input",{type:"text",class:"bigtext sm",value:B.S.profile.name,maxlength:"20","aria-label":"Child name"});
