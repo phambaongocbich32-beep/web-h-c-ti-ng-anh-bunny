@@ -163,6 +163,7 @@ select{font:inherit;padding:6px;border-radius:12px;border:3px solid var(--lilac2
 .shower{position:fixed;bottom:-40px;z-index:90;pointer-events:none;animation:rise 2.2s ease-out forwards}@keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:.1}}
 .cd{height:10px;border-radius:9px;background:#e4dcff;overflow:hidden;margin:8px 0}.cd>div{height:100%;background:#7bd88f;width:0}
 @media (prefers-reduced-motion:reduce){.shower{animation-duration:.01s}}
+.cta3{background:#ffb347}.cta4{background:#6cb8ff}
 
 </style>
 
@@ -2347,7 +2348,9 @@ B.views.home=function(root){
     h("div",{class:"hero-text"},h("h1",null,greet+", "+B.name()+"!"),h("div",{class:"tag"},"Welcome to Bunny English World"),h("div",{class:"tag small"},"Listen • Speak • Read • Write • Play"))));
   const cont=h("button",{class:"btn big good cta",onclick:()=>B.go("lesson",{week:n,part:np||"warm"})},h("span",{class:"cta-e"},w.e),h("span",null,np?"Continue Learning":"Review this week"),h("small",null,"Week "+n+": "+w.t));
   root.appendChild(h("div",{class:"ctas"},cont,
-    h("button",{class:"btn big cta2",onclick:()=>B.go("lesson",{week:n})},h("span",{class:"cta-e"},"📅"),h("span",null,"Daily Lesson"),h("small",null,"About 15 minutes"))));
+    h("button",{class:"btn big cta2",onclick:()=>B.go("lesson",{week:n})},h("span",{class:"cta-e"},"📅"),h("span",null,"Daily Lesson"),h("small",null,"About 15 minutes")),
+    h("button",{class:"btn big cta cta3",onclick:()=>B.go("shadow")},h("span",{class:"cta-e"},"👥"),h("span",null,"Shadowing"),h("small",null,"Say it like an echo!")),
+    h("button",{class:"btn big cta cta4",onclick:()=>B.go("videos")},h("span",{class:"cta-e"},"📺"),h("span",null,"Videos"),h("small",null,"Watch with a grown-up"))));
   const T=[["lesson","🗺️","My Learning Path","Lộ trình của bé","c1"],["talk","🧑‍🏫","Meet Foreign Teachers","Giáo viên nước ngoài (sắp có)","c4",{tab:"teachers"}],["talk","🤖","AI Conversation Room","Trò chuyện với bạn AI","c2",{tab:"ai"}],["pron","🎙️","Speak & Pronunciation Lab","Luyện nói & phát âm","c3"],
     ["lesson","🏫","My English Academy","Chương trình 36 tuần","c5",{}],["phonics","🔤","Phonics Master","Học âm","c6"],["reading","📖","Reading Adventure","Đọc truyện","c1"],["vx","🌌","Vocabulary Universe","Thế giới từ vựng","c2"],
     ["listening","👂","Listening World","Nghe và phản xạ","c3"],["games","🎮","Games & Challenges","Trò chơi","c4"],["progress","🌳","My English Journey","Tiến độ của bé","c5"],["parent","👪","Parent Dashboard","Góc phụ huynh","c6"]];
