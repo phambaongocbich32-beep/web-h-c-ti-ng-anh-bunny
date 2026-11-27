@@ -165,6 +165,49 @@ select{font:inherit;padding:6px;border-radius:12px;border:3px solid var(--lilac2
 @media (prefers-reduced-motion:reduce){.shower{animation-duration:.01s}}
 .cta3{background:#ffb347}.cta4{background:#6cb8ff}
 
+/* ===== Contest (Thi dau) ===== */
+.ct-home-btn{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;margin:4px 0 12px;padding:16px 10px;background:linear-gradient(135deg,#ff9a62,#ff7fb0 55%,#a68bff);animation:ctglow 1.6s ease-in-out infinite alternate}
+.ct-home-btn small{font-weight:700;font-size:.72em}
+@keyframes ctglow{to{transform:scale(1.025)}}
+.ct h1{margin-top:.2em}
+.ct-topics{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+.ct-pick{border:4px solid var(--lilac2);background:#fff;border-radius:var(--r);padding:8px 14px;box-shadow:var(--sh);font-weight:800;min-width:104px;text-align:center}
+.ct-pick .te{display:block;font-size:2.1rem}.ct-pick.on{border-color:var(--mint);background:var(--mint2)}
+.ct-seg{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
+.ct-seg .btn{background:var(--lilac2);color:var(--ink);text-shadow:none}.ct-seg .btn.on{background:var(--mint);color:#fff}
+.ct-names{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-top:8px}
+.ct-name{display:flex;align-items:center;gap:8px}.ct-av{font-size:2rem;line-height:1}
+.ct-name input{flex:1;min-width:0;font:inherit;border:3px solid var(--lilac2);border-radius:14px;padding:8px 10px;background:#fff;color:var(--ink)}
+.ct-count{display:flex;align-items:center;justify-content:center;gap:12px;font-weight:800}
+.ct-head{display:flex;align-items:center;gap:8px;justify-content:space-between;margin:6px 0;flex-wrap:wrap}
+.ct-who{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.2rem}.ct-who .ct-av{font-size:2.2rem}
+.ct-bar{height:16px;background:var(--lilac2);border-radius:99px;overflow:hidden;margin:6px 0}
+.ct-bar i{display:block;height:100%;width:100%;background:var(--mint);transition:width .1s linear;border-radius:99px}.ct-bar.hot i{background:var(--bad)}
+.ct-stem{text-align:center;margin:8px 0}.ct-big{font-size:6rem;line-height:1.1}.ct-q{font-weight:800;font-size:1.3rem}
+.ct-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.ct-opt{min-height:96px;background:#fff;border:4px solid var(--lilac2);border-radius:var(--r);box-shadow:var(--sh);font-weight:800;font-size:1.5rem;display:flex;align-items:center;justify-content:center;padding:8px;color:var(--ink)}
+.ct-opt.pic{font-size:3.6rem}.ct-opt:active:not(:disabled){transform:translateY(3px)}
+.ct-opt.right{background:var(--mint2);border-color:var(--mint)}.ct-opt.wrong{background:#ffe0e0;border-color:var(--bad)}.ct-opt:disabled{cursor:default}
+.ct-fb{min-height:3.6em;text-align:center;font-weight:800;font-size:1.25rem}.ct-fb .pts{color:var(--mint);font-size:1.5rem}
+.ct-sb{display:grid;gap:6px;margin:8px 0}
+.ct-srow{display:grid;grid-template-columns:30px 34px minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border-radius:14px;padding:4px 10px;position:relative;overflow:hidden}
+.ct-srow.next{outline:4px solid var(--sun);background:var(--sun2)}
+.ct-srow .fill{position:absolute;left:0;top:0;bottom:0;background:var(--lilac2);opacity:.7;z-index:0}.ct-srow>*{position:relative;z-index:1}
+.ct-srow b{font-weight:800}.ct-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.ct-next{text-align:center;background:var(--card);border-radius:var(--r);padding:12px;box-shadow:var(--sh);margin:10px 0}.ct-next .ct-av{font-size:4rem}.ct-next .nm{font-size:1.6rem;font-weight:800}
+.ct-podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:14px 0 6px}
+.ct-pod,.ct-rrow{transition:opacity .45s,transform .45s}
+.ct-pod{flex:1;max-width:210px;text-align:center}.ct-pod .ct-av{font-size:2.6rem}.ct-pod .nm{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ct-pod .md{font-size:2.6rem;line-height:1.1}.ct-pod .pr{font-size:.8em;font-weight:800;color:var(--lilac)}
+.ct-pod .blk{border-radius:16px 16px 0 0;color:#fff;font-weight:800;font-size:1.6rem;padding-top:6px;box-shadow:var(--sh);text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.ct-pod.g0 .blk{height:150px;background:#f5b800}.ct-pod.g1 .blk{height:112px;background:#9aa7b8}.ct-pod.g2 .blk{height:84px;background:#d98b4a}
+.ct-rrow{display:grid;grid-template-columns:34px 38px minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border-radius:16px;padding:6px 10px;box-shadow:0 3px 0 rgba(58,47,91,.12);margin:6px 0}
+.ct-rrow .rk{font-weight:800;font-size:1.2rem;color:var(--lilac);text-align:center}.ct-rrow .md{font-size:2rem}.ct-rrow .sub{font-size:.75em;color:var(--soft);font-weight:700}
+.ct-hide{opacity:0;transform:scale(.6) translateY(24px);pointer-events:none}
+.ct [hidden]{display:none!important}
+.ct-drum{text-align:center;font-weight:800;font-size:1.3rem;min-height:1.8em}
+@media (max-width:420px){.ct-big{font-size:5rem}.ct-opt{font-size:1.25rem}}
+@media (prefers-reduced-motion:reduce){.ct-home-btn{animation:none}.ct-pod,.ct-rrow{transition:none}}
 </style>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%B0%3C/text%3E%3C/svg%3E">
@@ -2351,6 +2394,7 @@ B.views.home=function(root){
     h("button",{class:"btn big cta2",onclick:()=>B.go("lesson",{week:n})},h("span",{class:"cta-e"},"📅"),h("span",null,"Daily Lesson"),h("small",null,"About 15 minutes")),
     h("button",{class:"btn big cta cta3",onclick:()=>B.go("shadow")},h("span",{class:"cta-e"},"👥"),h("span",null,"Shadowing"),h("small",null,"Say it like an echo!")),
     h("button",{class:"btn big cta cta4",onclick:()=>B.go("videos")},h("span",{class:"cta-e"},"📺"),h("span",null,"Videos"),h("small",null,"Watch with a grown-up"))));
+  root.appendChild(h("button",{class:"btn big ct-home-btn",onclick:()=>B.go("contest")},h("span",{class:"cta-e"},"🏆"),h("span",null,"Thi đấu • Contest"),h("small",null,"Cả lớp cùng chơi, xếp hạng và nhận huy chương!")));
   const T=[["lesson","🗺️","My Learning Path","Lộ trình của bé","c1"],["talk","🧑‍🏫","Meet Foreign Teachers","Giáo viên nước ngoài (sắp có)","c4",{tab:"teachers"}],["talk","🤖","AI Conversation Room","Trò chuyện với bạn AI","c2",{tab:"ai"}],["pron","🎙️","Speak & Pronunciation Lab","Luyện nói & phát âm","c3"],
     ["lesson","🏫","My English Academy","Chương trình 36 tuần","c5",{}],["phonics","🔤","Phonics Master","Học âm","c6"],["reading","📖","Reading Adventure","Đọc truyện","c1"],["vx","🌌","Vocabulary Universe","Thế giới từ vựng","c2"],
     ["listening","👂","Listening World","Nghe và phản xạ","c3"],["games","🎮","Games & Challenges","Trò chơi","c4"],["progress","🌳","My English Journey","Tiến độ của bé","c5"],["parent","👪","Parent Dashboard","Góc phụ huynh","c6"]];
@@ -2530,6 +2574,175 @@ B.boot=function(){
 document.addEventListener("DOMContentLoaded",B.boot);
 })(window.BEW);
 
+</script>
+<script>
+/* Bunny English World - Contest mode (Thi dau): up to 10 players, Colors / Toys / Animals, ranking + medals */
+(function(B){
+"use strict";
+const h=B.h,A=B.audio,KEY="bew.contest.v1";
+const TOPICS=[{id:"colors",e:"🎨",t:"Colors",vi:"Màu sắc"},{id:"toys",e:"🧸",t:"Toys",vi:"Đồ chơi"},{id:"animals",e:"🐶",t:"Animals",vi:"Con vật"}];
+const AV=["🐰","🐶","🐱","🐼","🦁","🐯","🐸","🐵","🦊","🐻"];
+const OK=[["Great job!","Giỏi lắm!"],["Awesome!","Tuyệt vời!"],["Fantastic!","Tuyệt quá!"],["Super!","Siêu quá!"],["Excellent!","Xuất sắc!"],["Well done!","Làm tốt lắm!"],["Wow, amazing!","Wow, đỉnh quá!"],["Perfect!","Hoàn hảo!"]];
+const vi=t=>(B.S&&B.S.settings&&B.S.settings.vi===false)?null:h("div",{class:"vi"},t);
+function say(t,slow){let p;try{p=Promise.resolve(A.speak(t,slow?{slow:true}:{}));}catch(e){p=Promise.resolve();}return Promise.race([p.catch(()=>0),B.sleep(3200)]);}
+function medalOf(r){
+  if(r===1)return{e:"🥇",n:"Gold Medal",vi:"Huy chương Vàng",pr:"Champion!",pvi:"Nhà vô địch!",say:"Congratulations! Gold medal! You are the champion!"};
+  if(r===2)return{e:"🥈",n:"Silver Medal",vi:"Huy chương Bạc",pr:"Fantastic!",pvi:"Tuyệt vời!",say:"Fantastic! Silver medal! You are number two!"};
+  if(r===3)return{e:"🥉",n:"Bronze Medal",vi:"Huy chương Đồng",pr:"Wonderful!",pvi:"Giỏi quá!",say:"Wonderful! Bronze medal! You are number three!"};
+  if(r<=5)return{e:"🏅",n:"Super Star Medal",vi:"Huy chương Siêu Sao",pr:"Great job!",pvi:"Giỏi lắm!",say:"Great job! You are a super star!"};
+  if(r<=7)return{e:"🎖️",n:"Brave Bunny Medal",vi:"Huy chương Thỏ Dũng Cảm",pr:"Well done!",pvi:"Làm tốt lắm!",say:"Well done! You are so brave!"};
+  return{e:"🌈",n:"Rainbow Smile Medal",vi:"Huy chương Nụ Cười Cầu Vồng",pr:"Good try!",pvi:"Cố gắng tốt!",say:"Good try! You did your best! Keep going!"};
+}
+function loadCfg(){let c={};try{c=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
+  const tp=Array.isArray(c.topics)?c.topics.filter(x=>TOPICS.some(t=>t.id===x)):[];
+  return{n:Math.max(2,Math.min(10,+c.n||10)),names:Array.isArray(c.names)?c.names.slice(0,10).map(String):[],
+    rounds:[3,5,8].indexOf(+c.rounds)>=0?+c.rounds:5,time:[0,8,12,20].indexOf(+c.time)>=0?+c.time:12,topics:tp.length?tp:TOPICS.map(t=>t.id)};}
+function saveCfg(c){try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){}}
+function makeSet(ids,N){
+  const pools=ids.map(id=>B.shuffle(B.cat(id).words)),order=B.shuffle(ids.map((_,i)=>i)),flip=Math.random()<.5?1:0,qs=[];
+  for(let i=0;i<N;i++){const pi=order[i%order.length],pool=pools[pi],w=pool[Math.floor(i/order.length)%pool.length];
+    const ds=B.shuffle(B.cat(w.cat).words.filter(x=>x.w!==w.w)).slice(0,3);
+    qs.push({w:w,type:(i+flip)%2?"hear":"see",opts:B.shuffle([w].concat(ds))});}
+  return qs;
+}
+B.views.contest=function(root){
+  const box=h("div",{class:"ct"});root.appendChild(box);
+  const alive=()=>box.isConnected;let cfg=loadCfg(),G=null,timer=null;
+  const stopTimer=()=>{if(timer){clearInterval(timer);timer=null;}};
+  B.setBubble("Contest time! Who will be the champion?");
+
+  /* ---------- setup ---------- */
+  let inputs=[];
+  function sync(){inputs.forEach((x,i)=>{cfg.names[i]=x.value.trim();});}
+  function setup(){
+    stopTimer();A.stop();B.clear(box);inputs=[];G=null;
+    box.appendChild(h("div",{class:"row between"},B.back("home","Home")));
+    box.appendChild(h("h1",null,"🏆 Contest Time!"));
+    box.appendChild(h("div",{class:"center"},h("div",{class:"tag"},"Colors • Toys • Animals"),vi("Thi đấu từ vựng: Màu sắc • Đồ chơi • Con vật")));
+    const tp=h("div",{class:"ct-topics"},TOPICS.map(t=>{const on=cfg.topics.indexOf(t.id)>=0;
+      return h("button",{class:"ct-pick"+(on?" on":""),"aria-pressed":on?"true":"false",onclick:()=>{sync();const i=cfg.topics.indexOf(t.id);
+        if(i>=0){if(cfg.topics.length>1)cfg.topics.splice(i,1);}else cfg.topics.push(t.id);setup();}},h("span",{class:"te"},t.e),t.t,vi(t.vi));}));
+    box.appendChild(h("div",{class:"card"},h("h3",null,"📚 Topics"),tp));
+    const seg=(arr,cur,fmt,set)=>h("div",{class:"ct-seg"},arr.map(v=>h("button",{class:"btn small"+(v===cur?" on":""),onclick:()=>{sync();set(v);setup();}},fmt(v))));
+    box.appendChild(h("div",{class:"card"},h("h3",null,"❓ Questions per player"),vi("Số câu mỗi bạn"),seg([3,5,8],cfg.rounds,v=>v+" questions",v=>{cfg.rounds=v;}),
+      h("h3",null,"⏱️ Time per question"),vi("Thời gian mỗi câu"),seg([8,12,20,0],cfg.time,v=>v?v+" sec":"No timer ∞",v=>{cfg.time=v;})));
+    const cnt=h("div",{class:"ct-count"},h("button",{class:"btn small",disabled:cfg.n<=2,"aria-label":"Fewer players",onclick:()=>{sync();cfg.n--;setup();}},"➖"),
+      h("span",{class:"title"},"👥 "+cfg.n+" players"),h("button",{class:"btn small",disabled:cfg.n>=10,"aria-label":"More players",onclick:()=>{sync();cfg.n++;setup();}},"➕"));
+    const names=h("div",{class:"ct-names"},Array.from({length:cfg.n},(_,i)=>{const inp=h("input",{type:"text",maxlength:"16",autocomplete:"off",placeholder:"Bạn "+(i+1),"aria-label":"Player "+(i+1)+" name",value:cfg.names[i]||""});
+      inputs.push(inp);return h("label",{class:"ct-name"},h("span",{class:"ct-av"},AV[i]),inp);}));
+    box.appendChild(h("div",{class:"card"},h("h3",null,"👧👦 Players"),vi("Nhập tên các bạn (để trống sẽ tự đặt là Bạn 1, Bạn 2...)"),cnt,names));
+    box.appendChild(h("div",{class:"row"},h("button",{class:"btn big good",onclick:()=>{sync();begin();}},"🚀 Start the contest!")));
+    box.appendChild(h("div",{class:"hint"},"Mỗi bạn lần lượt trả lời trên cùng một màn hình. Đúng càng nhanh, điểm càng cao!"));
+  }
+  function begin(){
+    cfg.names=cfg.names.slice(0,cfg.n);saveCfg(cfg);
+    G={players:Array.from({length:cfg.n},(_,i)=>({i:i,av:AV[i],name:cfg.names[i]||("Bạn "+(i+1)),score:0,ok:0,streak:0,best:0})),
+      sets:null};
+    G.sets=G.players.map(()=>makeSet(cfg.topics,cfg.rounds));
+    between(-1);
+  }
+
+  /* ---------- between turns ---------- */
+  function board(nextI){
+    const sorted=G.players.slice().sort((a,b)=>b.score-a.score||a.i-b.i),max=Math.max(1,sorted[0].score);
+    return h("div",{class:"ct-sb"},sorted.map((p,k)=>h("div",{class:"ct-srow"+(p.i===nextI?" next":"")},h("div",{class:"fill",style:{width:Math.round(p.score/max*100)+"%"}}),
+      h("b",null,String(k+1)),h("span",{class:"ct-av"},p.av),h("span",{class:"ct-nm"},p.name),h("b",null,p.score+" ⭐"))));
+  }
+  function between(last){
+    stopTimer();A.stop();B.clear(box);const next=last+1;
+    if(last>=0&&next>=G.players.length)return results();
+    const N=cfg.rounds;
+    if(last>=0){const p=G.players[last],r=p.ok/N,pr=r>=.8?OK[2]:r>=.5?OK[0]:["Good try!","Cố gắng tốt!"];
+      box.appendChild(h("div",{class:"done"},h("div",{class:"big-emoji"},r>=.8?"🎉":"👏"),h("h2",null,p.av+" "+p.name+": "+p.score+" ⭐"),
+        h("p",null,"✅ "+p.ok+" / "+N+" correct"+(p.best>=3?" • 🔥 best streak "+p.best:"")),h("p",{class:"tag"},pr[0]),vi(pr[1])));
+      B.setBubble(pr[0]);if(r>=.5){B.cheer();B.shower();}else B.beep(330,.2);say(pr[0]);
+    }else{box.appendChild(h("h1",null,"🏁 Ready, set, go!"));B.setBubble("Ready, set, go!");say("Ready, set, go!");}
+    box.appendChild(board(next));
+    const q=G.players[next];
+    box.appendChild(h("div",{class:"ct-next"},h("div",{class:"tag small"},"Next player • Bạn tiếp theo"),h("div",{class:"ct-av"},q.av),h("div",{class:"nm"},q.name),
+      h("div",{class:"row"},h("button",{class:"btn big good pulse",onclick:()=>ask(next,0)},"▶ "+q.name+", go!"))));
+    box.appendChild(h("div",{class:"row"},h("button",{class:"btn small bad",onclick:()=>{if(confirm("Stop the contest? / Dừng cuộc thi?"))setup();}},"⏹ Stop")));
+  }
+
+  /* ---------- a question ---------- */
+  function ask(pi,qi){
+    const myG=G,p=G.players[pi],set=G.sets[pi],q=set[qi],N=set.length;stopTimer();A.stop();B.clear(box);
+    let answered=false,left=cfg.time;const t0=Date.now();
+    const fill=h("i"),bar=h("div",{class:"ct-bar","aria-hidden":"true"},fill),fb=h("div",{class:"ct-fb",role:"status","aria-live":"polite"});
+    const stem=h("div",{class:"ct-stem"});const optsEl=h("div",{class:"ct-opts"});
+    const hasVoice=A.voices&&A.voices.length;
+    if(q.type==="see"){stem.appendChild(h("div",{class:"ct-big","aria-hidden":"true"},q.w.e));stem.appendChild(h("div",{class:"ct-q"},"What is this?"));stem.appendChild(vi("Đây là gì?"));}
+    else{stem.appendChild(h("div",{class:"ct-q"},"🔊 Where is the "+(hasVoice?"...":q.w.w)+"?"));stem.appendChild(vi("Nghe và chạm vào hình đúng"));
+      stem.appendChild(h("div",{class:"row"},h("button",{class:"btn spk big","aria-label":"Listen again",onclick:()=>A.speak("Where is the "+q.w.w+"?")},"🔊 Listen"),h("button",{class:"btn small","aria-label":"Slowly",onclick:()=>A.speak(q.w.w,{slow:true})},"🐢")));}
+    const btns=q.opts.map(o=>{const b=h("button",{class:"ct-opt"+(q.type==="hear"?" pic":""),"aria-label":q.type==="hear"?o.w:null,onclick:()=>finish(o,b)},q.type==="hear"?o.e:o.w);b._o=o;optsEl.appendChild(b);return b;});
+    box.appendChild(h("div",{class:"ct-head"},h("div",{class:"ct-who"},h("span",{class:"ct-av"},p.av),p.name),
+      h("div",{class:"chips"},h("span",{class:"chip"},"❓ "+(qi+1)+"/"+N),h("span",{class:"chip"},"⭐ "+p.score))));
+    if(cfg.time)box.appendChild(bar);
+    box.appendChild(stem);box.appendChild(optsEl);box.appendChild(fb);
+    if(q.type==="hear")setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak("Where is the "+q.w.w+"?");},250);
+    else setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak("What is this?");},250);
+    if(cfg.time)timer=setInterval(()=>{if(!alive()||G!==myG){stopTimer();return;}
+      left=cfg.time-(Date.now()-t0)/1000;fill.style.width=Math.max(0,left/cfg.time*100)+"%";if(left<=3)bar.classList.add("hot");if(left<=0)finish(null,null);},100);
+    async function finish(o,btn){
+      if(answered)return;answered=true;stopTimer();btns.forEach(b=>{b.disabled=true;if(b._o.w===q.w.w)b.classList.add("right");});
+      const ok=!!o&&o.w===q.w.w;let pts=0,en,vn;
+      if(ok){const frac=cfg.time?Math.max(0,left)/cfg.time:.5;pts=10+Math.round(5*frac);p.streak++;p.ok++;p.best=Math.max(p.best,p.streak);
+        const c=B.pick(OK);en=c[0];vn=c[1];if(p.streak===3){pts+=5;en="Hat trick! Three in a row!";vn="3 câu liên tiếp! Thưởng thêm +5";}
+        B.cheer();if(btn)B.burst(btn);}
+      else{p.streak=0;if(btn)btn.classList.add("wrong");B.beep(300,.25,"triangle");
+        if(o){en="Good try!";vn="Cố gắng nhé! Đáp án đúng là: "+q.w.w+" ("+q.w.vi+")";}else{en="Time's up!";vn="Hết giờ! Đáp án: "+q.w.w+" ("+q.w.vi+")";}}
+      p.score+=pts;
+      fb.appendChild(h("div",null,(ok?"🌟 ":"💪 ")+en,ok?h("span",{class:"pts"}," +"+pts):null));fb.appendChild(vi(vn));B.setBubble(en);
+      await Promise.all([say(ok?q.w.w+"! "+en:en+" The answer is "+q.w.w+"."),B.sleep(1700)]);
+      if(!alive()||G!==myG)return;
+      if(qi+1<N)ask(pi,qi+1);else between(pi);
+    }
+  }
+
+  /* ---------- results ---------- */
+  function results(){
+    stopTimer();A.stop();B.clear(box);
+    const ranked=G.players.slice().sort((a,b)=>b.score-a.score||b.ok-a.ok||a.i-b.i);let r=0;
+    ranked.forEach((p,i)=>{if(i===0||p.score!==ranked[i-1].score)r=i+1;p.rank=r;p.md=medalOf(r);});
+    box.appendChild(h("h1",null,"🏆 Final Ranking"));box.appendChild(h("div",{class:"center"},vi("Bảng xếp hạng & trao huy chương")));
+    const drum=h("div",{class:"ct-drum","aria-live":"polite"});box.appendChild(drum);
+    const steps=[];
+    const podList=ranked.slice(0,3).map((p,k)=>{const el=h("div",{class:"ct-pod g"+k+" ct-hide"},h("div",{class:"ct-av"},p.av),h("div",{class:"nm"},p.name),h("div",{class:"md"},p.md.e),
+      h("div",{class:"pr"},p.md.pr),h("div",{class:"blk"},p.rank+" • "+p.score+"⭐"));steps.push({k:k,el:el,p:p});return el;});
+    const podOrder=[podList[1],podList[0],podList[2]].filter(Boolean);
+    box.appendChild(h("div",{class:"ct-podium"},podOrder));
+    const rows=h("div",null);
+    ranked.slice(3).forEach(p=>{const el=h("div",{class:"ct-rrow ct-hide"},h("div",{class:"rk"},"#"+p.rank),h("div",{class:"md"},p.md.e),
+      h("div",null,h("div",{class:"ct-nm"},p.av+" "+p.name),h("div",{class:"sub"},p.md.n+" • "+p.md.pr+(cfg?" • ✅ "+p.ok+"/"+cfg.rounds:""))),h("b",null,p.score+" ⭐"));
+      rows.appendChild(el);steps.push({k:99,el:el,p:p});});
+    box.appendChild(rows);
+    box.appendChild(h("div",{class:"card"},h("h3",null,"🎖️ Medals"),
+      h("p",null,"🥇 Gold #1 • 🥈 Silver #2 • 🥉 Bronze #3 • 🏅 Super Star #4-5 • 🎖️ Brave Bunny #6-7 • 🌈 Rainbow Smile #8-10"),vi("Bạn nào cũng có huy chương! Điểm = 10 + thưởng tốc độ + thưởng 3 câu đúng liên tiếp.")));
+    let skip=false;const order=steps.filter(s=>s.k===99).reverse().concat(steps.filter(s=>s.k!==99).sort((a,b)=>b.k-a.k));
+    const ctl=h("div",{class:"row wrap"},h("button",{class:"btn small",onclick:()=>{skip=true;}},"⏩ Show all"));box.appendChild(ctl);
+    const end=h("div",{class:"row wrap",hidden:true},h("button",{class:"btn good",onclick:()=>{G.players.forEach(p=>{p.score=p.ok=p.streak=p.best=0;});G.sets=G.players.map(()=>makeSet(cfg.topics,cfg.rounds));between(-1);}},"🔁 Play again (same players)"),
+      h("button",{class:"btn",onclick:()=>results()},"🔊 Announce again"),h("button",{class:"btn",onclick:setup},"👥 New players"),h("button",{class:"btn spk",onclick:()=>B.go("home")},"🏠 Home"));
+    box.appendChild(end);
+    const myG=G;
+    (async()=>{
+      B.setBubble("And now... the ranking!");drum.textContent="🥁 Drum roll...";await say("And now, the ranking! Drum roll, please!");await B.sleep(500);
+      for(const s of order){
+        if(!alive()||G!==myG)return;
+        if(!skip&&s.k===0){drum.textContent="🥁 And the winner is...";B.setBubble("And the winner is...");await say("And the winner is...");await B.sleep(700);}
+        s.el.classList.remove("ct-hide");if(skip){continue;}
+        drum.textContent=s.p.md.e+" "+s.p.name+" — "+s.p.md.n;B.setBubble(s.p.md.pr);B.beep(660+s.p.rank*0,.2);B.burst(s.el);
+        if(s.p.rank<=3){B.cheer();B.shower();}
+        await Promise.all([say(s.p.md.say),B.sleep(900)]);
+      }
+      if(!alive()||G!==myG)return;
+      order.forEach(s=>s.el.classList.remove("ct-hide"));ctl.hidden=true;end.hidden=false;
+      const top=ranked[0];drum.textContent="🎉 Congratulations, "+top.name+"! 🎉";B.cheer();B.shower();B.setBubble("Congratulations, everyone!");
+      say("Congratulations, everyone! You are all stars!");setTimeout(()=>{if(alive())B.shower();},1500);
+    })();
+  }
+  setup();
+};
+})(window.BEW);
 </script>
 <script>
 window.addEventListener("load",function(){setTimeout(function(){var v=document.getElementById("view");if(!window.BEW||!window.BEW.boot||!v){document.body.innerHTML='<div style="font:20px sans-serif;padding:24px;max-width:600px;margin:auto"><h2>Bunny English World could not start</h2><p>The page loaded but its files (js/ and css/ folders) are missing. Please upload the single-file version of index.html (about 290 KB), or upload the js, css and audio folders too.</p><p>Trang chưa tải được các file js/ và css/. Hãy upload bản index.html một file (khoảng 290 KB) hoặc upload cả thư mục js, css.</p></div>';}},800);});
