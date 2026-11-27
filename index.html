@@ -2582,16 +2582,21 @@ document.addEventListener("DOMContentLoaded",B.boot);
 const h=B.h,A=B.audio,KEY="bew.contest.v1";
 const TOPICS=[{id:"colors",e:"🎨",t:"Colors",vi:"Màu sắc"},{id:"toys",e:"🧸",t:"Toys",vi:"Đồ chơi"},{id:"animals",e:"🐶",t:"Animals",vi:"Con vật"}];
 const AV=["🐰","🐶","🐱","🐼","🦁","🐯","🐸","🐵","🦊","🐻"];
-const OK=[["Great job!","Giỏi lắm!"],["Awesome!","Tuyệt vời!"],["Fantastic!","Tuyệt quá!"],["Super!","Siêu quá!"],["Excellent!","Xuất sắc!"],["Well done!","Làm tốt lắm!"],["Wow, amazing!","Wow, đỉnh quá!"],["Perfect!","Hoàn hảo!"]];
+const OK=[["Great job!","Giỏi lắm!"],["Awesome!","Tuyệt vời!"],["Yay!","Hoan hô!"],["Super!","Siêu quá!"],["Good job!","Giỏi lắm!"],["Well done!","Làm tốt lắm!"],["Wow!","Wow, đỉnh quá!"],["Perfect!","Hoàn hảo!"]];
+const ASK={colors:["What colour is it?","Màu gì đây?"],toys:["What toy is it?","Đồ chơi gì đây?"],animals:["What animal is it?","Con vật gì đây?"]};
+const HEAR={colors:w=>"Touch "+w.w+".",toys:w=>"Touch the "+w.w+".",animals:w=>"Touch the "+w.w+"."};
+const askOf=w=>ASK[w.cat]||["What is it?","Đây là gì?"];
+const hearOf=w=>(HEAR[w.cat]||HEAR.toys)(w);
+const itIs=w=>w.cat==="colors"?"It is "+w.w+".":"It is "+B.article(w.w,w.na)+w.w+".";
 const vi=t=>(B.S&&B.S.settings&&B.S.settings.vi===false)?null:h("div",{class:"vi"},t);
 function say(t,slow){let p;try{p=Promise.resolve(A.speak(t,slow?{slow:true}:{}));}catch(e){p=Promise.resolve();}return Promise.race([p.catch(()=>0),B.sleep(3200)]);}
 function medalOf(r){
-  if(r===1)return{e:"🥇",n:"Gold Medal",vi:"Huy chương Vàng",pr:"Champion!",pvi:"Nhà vô địch!",say:"Congratulations! Gold medal! You are the champion!"};
-  if(r===2)return{e:"🥈",n:"Silver Medal",vi:"Huy chương Bạc",pr:"Fantastic!",pvi:"Tuyệt vời!",say:"Fantastic! Silver medal! You are number two!"};
-  if(r===3)return{e:"🥉",n:"Bronze Medal",vi:"Huy chương Đồng",pr:"Wonderful!",pvi:"Giỏi quá!",say:"Wonderful! Bronze medal! You are number three!"};
-  if(r<=5)return{e:"🏅",n:"Super Star Medal",vi:"Huy chương Siêu Sao",pr:"Great job!",pvi:"Giỏi lắm!",say:"Great job! You are a super star!"};
-  if(r<=7)return{e:"🎖️",n:"Brave Bunny Medal",vi:"Huy chương Thỏ Dũng Cảm",pr:"Well done!",pvi:"Làm tốt lắm!",say:"Well done! You are so brave!"};
-  return{e:"🌈",n:"Rainbow Smile Medal",vi:"Huy chương Nụ Cười Cầu Vồng",pr:"Good try!",pvi:"Cố gắng tốt!",say:"Good try! You did your best! Keep going!"};
+  if(r===1)return{e:"🥇",n:"Gold Medal",vi:"Huy chương Vàng",pr:"Number one!",pvi:"Nhà vô địch!",say:"Yay! Gold medal! You are number one!"};
+  if(r===2)return{e:"🥈",n:"Silver Medal",vi:"Huy chương Bạc",pr:"Number two!",pvi:"Hạng hai!",say:"Wow! Silver medal! You are number two!"};
+  if(r===3)return{e:"🥉",n:"Bronze Medal",vi:"Huy chương Đồng",pr:"Number three!",pvi:"Hạng ba!",say:"Great! Bronze medal! You are number three!"};
+  if(r<=5)return{e:"🏅",n:"Super Star Medal",vi:"Huy chương Siêu Sao",pr:"Great job!",pvi:"Giỏi lắm!",say:"Great job! You are a star!"};
+  if(r<=7)return{e:"🎖️",n:"Brave Bunny Medal",vi:"Huy chương Thỏ Dũng Cảm",pr:"Good job!",pvi:"Làm tốt lắm!",say:"Good job! You are brave!"};
+  return{e:"🌈",n:"Rainbow Smile Medal",vi:"Huy chương Nụ Cười Cầu Vồng",pr:"Good try!",pvi:"Cố gắng tốt!",say:"Good try! You did your best!"};
 }
 function loadCfg(){let c={};try{c=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
   const tp=Array.isArray(c.topics)?c.topics.filter(x=>TOPICS.some(t=>t.id===x)):[];
@@ -2652,11 +2657,11 @@ B.views.contest=function(root){
     stopTimer();A.stop();B.clear(box);const next=last+1;
     if(last>=0&&next>=G.players.length)return results();
     const N=cfg.rounds;
-    if(last>=0){const p=G.players[last],r=p.ok/N,pr=r>=.8?OK[2]:r>=.5?OK[0]:["Good try!","Cố gắng tốt!"];
+    if(last>=0){const p=G.players[last],r=p.ok/N,pr=r>=.8?OK[0]:r>=.5?OK[0]:["Good try!","Cố gắng tốt!"];
       box.appendChild(h("div",{class:"done"},h("div",{class:"big-emoji"},r>=.8?"🎉":"👏"),h("h2",null,p.av+" "+p.name+": "+p.score+" ⭐"),
         h("p",null,"✅ "+p.ok+" / "+N+" correct"+(p.best>=3?" • 🔥 best streak "+p.best:"")),h("p",{class:"tag"},pr[0]),vi(pr[1])));
       B.setBubble(pr[0]);if(r>=.5){B.cheer();B.shower();}else B.beep(330,.2);say(pr[0]);
-    }else{box.appendChild(h("h1",null,"🏁 Ready, set, go!"));B.setBubble("Ready, set, go!");say("Ready, set, go!");}
+    }else{box.appendChild(h("h1",null,"🏁 Ready, set, go!"));B.setBubble("Ready? Go!");say("Ready? Go!");}
     box.appendChild(board(next));
     const q=G.players[next];
     box.appendChild(h("div",{class:"ct-next"},h("div",{class:"tag small"},"Next player • Bạn tiếp theo"),h("div",{class:"ct-av"},q.av),h("div",{class:"nm"},q.name),
@@ -2671,29 +2676,29 @@ B.views.contest=function(root){
     const fill=h("i"),bar=h("div",{class:"ct-bar","aria-hidden":"true"},fill),fb=h("div",{class:"ct-fb",role:"status","aria-live":"polite"});
     const stem=h("div",{class:"ct-stem"});const optsEl=h("div",{class:"ct-opts"});
     const hasVoice=A.voices&&A.voices.length;
-    if(q.type==="see"){stem.appendChild(h("div",{class:"ct-big","aria-hidden":"true"},q.w.e));stem.appendChild(h("div",{class:"ct-q"},"What is this?"));stem.appendChild(vi("Đây là gì?"));}
-    else{stem.appendChild(h("div",{class:"ct-q"},"🔊 Where is the "+(hasVoice?"...":q.w.w)+"?"));stem.appendChild(vi("Nghe và chạm vào hình đúng"));
-      stem.appendChild(h("div",{class:"row"},h("button",{class:"btn spk big","aria-label":"Listen again",onclick:()=>A.speak("Where is the "+q.w.w+"?")},"🔊 Listen"),h("button",{class:"btn small","aria-label":"Slowly",onclick:()=>A.speak(q.w.w,{slow:true})},"🐢")));}
+    if(q.type==="see"){stem.appendChild(h("div",{class:"ct-big","aria-hidden":"true"},q.w.e));stem.appendChild(h("div",{class:"ct-q"},askOf(q.w)[0]));stem.appendChild(vi(askOf(q.w)[1]));}
+    else{stem.appendChild(h("div",{class:"ct-q"},"🔊 "+(hasVoice?"Listen and touch":hearOf(q.w))));stem.appendChild(vi("Nghe và chạm vào hình đúng"));
+      stem.appendChild(h("div",{class:"row"},h("button",{class:"btn spk big","aria-label":"Listen again",onclick:()=>A.speak(hearOf(q.w))},"🔊 Listen"),h("button",{class:"btn small","aria-label":"Slowly",onclick:()=>A.speak(q.w.w,{slow:true})},"🐢")));}
     const btns=q.opts.map(o=>{const b=h("button",{class:"ct-opt"+(q.type==="hear"?" pic":""),"aria-label":q.type==="hear"?o.w:null,onclick:()=>finish(o,b)},q.type==="hear"?o.e:o.w);b._o=o;optsEl.appendChild(b);return b;});
     box.appendChild(h("div",{class:"ct-head"},h("div",{class:"ct-who"},h("span",{class:"ct-av"},p.av),p.name),
       h("div",{class:"chips"},h("span",{class:"chip"},"❓ "+(qi+1)+"/"+N),h("span",{class:"chip"},"⭐ "+p.score))));
     if(cfg.time)box.appendChild(bar);
     box.appendChild(stem);box.appendChild(optsEl);box.appendChild(fb);
-    if(q.type==="hear")setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak("Where is the "+q.w.w+"?");},250);
-    else setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak("What is this?");},250);
+    if(q.type==="hear")setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak(hearOf(q.w));},250);
+    else setTimeout(()=>{if(alive()&&G===myG&&!answered)A.speak(askOf(q.w)[0]);},250);
     if(cfg.time)timer=setInterval(()=>{if(!alive()||G!==myG){stopTimer();return;}
       left=cfg.time-(Date.now()-t0)/1000;fill.style.width=Math.max(0,left/cfg.time*100)+"%";if(left<=3)bar.classList.add("hot");if(left<=0)finish(null,null);},100);
     async function finish(o,btn){
       if(answered)return;answered=true;stopTimer();btns.forEach(b=>{b.disabled=true;if(b._o.w===q.w.w)b.classList.add("right");});
       const ok=!!o&&o.w===q.w.w;let pts=0,en,vn;
       if(ok){const frac=cfg.time?Math.max(0,left)/cfg.time:.5;pts=10+Math.round(5*frac);p.streak++;p.ok++;p.best=Math.max(p.best,p.streak);
-        const c=B.pick(OK);en=c[0];vn=c[1];if(p.streak===3){pts+=5;en="Hat trick! Three in a row!";vn="3 câu liên tiếp! Thưởng thêm +5";}
+        const c=B.pick(OK);en=c[0];vn=c[1];if(p.streak===3){pts+=5;en="Wow! Three in a row!";vn="3 câu liên tiếp! Thưởng thêm +5";}
         B.cheer();if(btn)B.burst(btn);}
       else{p.streak=0;if(btn)btn.classList.add("wrong");B.beep(300,.25,"triangle");
         if(o){en="Good try!";vn="Cố gắng nhé! Đáp án đúng là: "+q.w.w+" ("+q.w.vi+")";}else{en="Time's up!";vn="Hết giờ! Đáp án: "+q.w.w+" ("+q.w.vi+")";}}
       p.score+=pts;
       fb.appendChild(h("div",null,(ok?"🌟 ":"💪 ")+en,ok?h("span",{class:"pts"}," +"+pts):null));fb.appendChild(vi(vn));B.setBubble(en);
-      await Promise.all([say(ok?q.w.w+"! "+en:en+" The answer is "+q.w.w+"."),B.sleep(1700)]);
+      await Promise.all([say(ok?q.w.w+"! "+en:en+" "+itIs(q.w)),B.sleep(1700)]);
       if(!alive()||G!==myG)return;
       if(qi+1<N)ask(pi,qi+1);else between(pi);
     }
@@ -2725,7 +2730,7 @@ B.views.contest=function(root){
     box.appendChild(end);
     const myG=G;
     (async()=>{
-      B.setBubble("And now... the ranking!");drum.textContent="🥁 Drum roll...";await say("And now, the ranking! Drum roll, please!");await B.sleep(500);
+      B.setBubble("And now... the ranking!");drum.textContent="🥁 Drum roll...";await say("Who is number one? Drum roll!");await B.sleep(500);
       for(const s of order){
         if(!alive()||G!==myG)return;
         if(!skip&&s.k===0){drum.textContent="🥁 And the winner is...";B.setBubble("And the winner is...");await say("And the winner is...");await B.sleep(700);}
@@ -2736,8 +2741,8 @@ B.views.contest=function(root){
       }
       if(!alive()||G!==myG)return;
       order.forEach(s=>s.el.classList.remove("ct-hide"));ctl.hidden=true;end.hidden=false;
-      const top=ranked[0];drum.textContent="🎉 Congratulations, "+top.name+"! 🎉";B.cheer();B.shower();B.setBubble("Congratulations, everyone!");
-      say("Congratulations, everyone! You are all stars!");setTimeout(()=>{if(alive())B.shower();},1500);
+      const top=ranked[0];drum.textContent="🎉 Yay, "+top.name+"! 🎉";B.cheer();B.shower();B.setBubble("Good job, everyone!");
+      say("Yay! Good job, everyone! You are all stars!");setTimeout(()=>{if(alive())B.shower();},1500);
     })();
   }
   setup();
